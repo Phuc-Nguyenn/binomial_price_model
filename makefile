@@ -1,5 +1,18 @@
 
-FILES = Node.cpp Tree.cpp main.cpp
+CC = g++
+CFlAGS = -I
+DEPS = Node.hpp Tree.hpp
 
-all: $(Files)
-	g++ $(FILES) -o binom
+
+OBJS = Node.o Tree.o main.o
+
+%.o: %.cpp $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+binom: $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o binom
+
+.PHONY: clean
+
+clean: $(OBJS)
+	rm -f $(OBJS) binom.exe
