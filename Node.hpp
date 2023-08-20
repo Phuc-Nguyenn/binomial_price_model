@@ -12,7 +12,8 @@ class Node
 {
     private:
         float share_price;
-        float deriv_price;
+        float call_price;
+        float put_price;
         int n;
         int j;
     public:
@@ -20,8 +21,9 @@ class Node
         Node(int n, int j);
         Node(int n, int j, float S);
 
-        float get_deriv_price(){ return(this->deriv_price);}
-        float get_share_price(){ return(this->share_price);}
+        float get_call_price(){ return(this->call_price);};
+        float get_put_price(){ return(this->put_price);};
+        float get_share_price(){ return(this->share_price);};
         vector<int> get_pos();
         void calc_share_price(Node& prev, float factor);
         void calc_deriv_price(float R, float pi, Node& next_up, Node& next_down);

@@ -1,10 +1,14 @@
 #include "Tree.hpp"
 #include <iostream>
 
+using namespace std;
+
 Tree::Tree(): pi(0), u(0), d(0), R(0), S(0), K(0){}
 
 Tree::Tree(float S, float K, float R, int N, float u, float d): u(u), d(d), R(R), S(S), K(K), N(N){
     this->pi = (R-d)/(u-d);
+    init_nodes();
+    calc_deriv_prices();
 }
 
 void Tree::print_vars(){
@@ -37,15 +41,15 @@ void Tree::init_nodes(){
     }
 
     //out put share prices
-    for(int n = 0; n <= this->N; n++){
-        for(int j = 0; j < this->tree[n].size(); j++){
-            std::cout << this->tree[n][j].get_share_price() << " \t";
-        }
-        std::cout << std::endl;
-    }
+    // for(int n = 0; n <= this->N; n++){
+    //     for(int j = 0; j < this->tree[n].size(); j++){
+    //         std::cout << this->tree[n][j].get_share_price() << " \t";
+    //     }
+    //     std::cout << std::endl;
+    // }
 }
 
-float Tree::find_premium(){
+void Tree::calc_deriv_prices(){
     for(int n = this->N; n >= 0; n--){
         for(int j = 0; j < this->tree[n].size(); j++){
             if(n == this->N){
@@ -55,14 +59,44 @@ float Tree::find_premium(){
                 this->tree[n][j].calc_deriv_price(R, pi, this->tree[n+1][j+1], this->tree[n+1][j]);
         }
     }
-
     //testing deriv price
-    std::cout << "\n";
-    for(int n = 0; n <= this->N; n++){
-        for(auto node : this->tree[n]){
-            std::cout << node.get_deriv_price() << " \t";
-        }
-        std::cout << std::endl;
+    // std::cout << "\n";
+    // for(int n = 0; n <= this->N; n++){
+    //     for(auto node : this->tree[n]){
+    //         std::cout << node.get_deriv_price() << " \t";
+    //     }
+    //     std::cout << std::endl;
+    // }
+}
+
+Node &Tree::get_node(int n, int j){
+    if(n >= 0 && n <= N && j >= 0 && j <= this->tree[n].size()){
+        return(this->tree[n][j]);
     }
-    return(this->tree[0][0].get_deriv_price());
+    else
+        std::cout << "(n,j) bad parameters." << std::endl;
+    return(this->tree[n][j]);
+}
+
+vector<float> Tree::get_node_info(int n, int j){
+    vector<float> info;
+    if(n >= 0 && n <= N && j >= 0 && j <= this->tree[n].size()){
+        info.push_back(n);
+        info.push_back(j);
+        info.push_back(this->tree[n][j].get_share_price());
+        info.push_back(this->tree[n][j].get_call_price());
+        info.push_back(this->tree[n][j].get_put_price());
+    }
+    else
+        std::cout << "(n,j) bad parameters." << std::endl;
+    return(info);
+}
+
+void Tree::print_node_info(int n, int j){
+    std::cout << "info for node (" << n << "," << j << ")" << std::endl;
+    vector<float> node_info = get_node_info(n,j);
+    std::cout << "(n,j) :\t\t" << "(" << node_info[0] << "," << node_info[1] << ")" << std::endl;
+    std::cout << "S(n,j) :\t" << node_info[2] << std::endl;
+    std::cout << "C(n,j) :\t" << node_info[3] << std::endl;
+    std::cout << "P(n,j) :\t" << node_info[4] << std::endl;
 }

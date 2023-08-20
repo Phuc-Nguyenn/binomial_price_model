@@ -18,6 +18,8 @@ class Tree
         float S;
         float K;
         int N;
+        void init_nodes();
+        void calc_deriv_prices();
 
     public:
         /*Tree(share price, strike price, return, time_steps, up factor, down factor)*/
@@ -25,8 +27,12 @@ class Tree
         Tree(float S, float K, float R, int N, float u, float d);
         void print_vars();
 
-        void init_nodes();
-        float find_premium();
+        float get_call_premium() {return(this->tree[0][0].get_call_price());};
+        float get_put_premium() {return(this->tree[0][0].get_put_price());};
+
+        Node &get_node(int n, int j);
+        vector<float> get_node_info(int n, int j);
+        void print_node_info(int n, int j);
 };
 
 #endif
