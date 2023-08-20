@@ -11,6 +11,7 @@ std::vector<int> Node::get_pos(){
     std::vector<int> pos(2);
     pos.push_back(this->n);
     pos.push_back(this->j);
+    return(pos);
 }
 
 void Node::calc_share_price(Node& prev, int factor){
@@ -19,4 +20,8 @@ void Node::calc_share_price(Node& prev, int factor){
 
 void Node::calc_deriv_price(float R, float pi, Node& next_up, Node& next_down){
     this->deriv_price = (1/R) * (pi * next_up.deriv_price + (1-pi) * next_down.deriv_price);
+}
+
+void Node::calc_expiry_deriv_price(float K){
+    this->deriv_price =K-this->share_price > 0 ? K-this->share_price : 0;
 }

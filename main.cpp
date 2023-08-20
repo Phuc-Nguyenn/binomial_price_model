@@ -13,7 +13,12 @@ int main(){
 
     Tree Tree(S, K, R, N, u, d);
 
+
     Tree.print_vars();
+    Tree.init_nodes();
+    float premium = Tree.find_premium();
+
+    std::cout << premium << std::endl;
     std::cout << "done" << std::endl;
     return(0);
 }

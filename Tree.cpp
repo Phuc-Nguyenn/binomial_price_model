@@ -9,9 +9,42 @@ Tree::Tree(float S, float K, float R, int N, float u, float d): u(u), d(d), R(R)
 
 void Tree::print_vars(){
     std::cout << "pi: " << pi << std::endl
-        << "u: " << u << std::endl
-        << "d: " << d << std::endl
-        << "R: " << R << std::endl
-        << "S: " << S << std::endl
-        << "K: " << K << std::endl;
+        << "u: " << this->u << std::endl
+        << "d: " << this->d << std::endl
+        << "R: " << this->R << std::endl
+        << "S: " << this->S << std::endl
+        << "K: " << this->K << std::endl
+        << "N: " << this->N << std::endl;
+}
+
+/*initialises nodes and calculates underlying*/
+void Tree::init_nodes(){
+    //set values of first
+    vector<Node> first_col(1);
+    first_col[0].set_pos(0,0);
+    first_col[0].set_S(this->S);
+    this->tree.push_back(first_col);
+    //loop for this number of time steps
+    for(int n = 1; n <= this->N; n++){
+        //for each time step add the right amount of nodes
+        vector<Node> col(n+1);
+        for(int j = 0; j < col.size(); j++){
+            col[j].set_pos(n,j);
+            if(j == 0) col[j].calc_share_price(this->tree[n-1][0], this->d);
+            else col[j].calc_share_price(this->tree[n-1][j-1], this->u);
+        }
+        this->tree.push_back(col);
+    }
+}
+
+float Tree::find_premium(){
+    for(int n = this->tree.size(); n >= 0; n--){
+        for(int j = 0; j < this->tree[n].size(); j++){
+            if(n == this->tree.size())
+                this->tree[n][j].calc_expiry_deriv_price(this->K);
+            else
+                this->tree[n][j].calc_deriv_price(R, pi, this->tree[n+1][j+1], this->tree[n+1][j]);
+        }
+    }
+    return(this->tree[0][0].get_deriv_price());
 }

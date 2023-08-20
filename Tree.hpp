@@ -24,6 +24,9 @@ class Tree
         Tree();
         Tree(float S, float K, float R, int N, float u, float d);
         void print_vars();
+
+        void init_nodes();
+        float find_premium();
 };
 
 #endif

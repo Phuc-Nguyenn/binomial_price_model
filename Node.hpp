@@ -16,6 +16,7 @@ class Node
         int n;
         int j;
     public:
+        Node(){};
         Node(int n, int j);
         Node(int n, int j, float S);
 
@@ -24,6 +25,9 @@ class Node
         vector<int> get_pos();
         void calc_share_price(Node& prev, int factor);
         void calc_deriv_price(float R, float pi, Node& next_up, Node& next_down);
+        void calc_expiry_deriv_price(float K);
+        void set_S(float S){this->share_price = S;};
+        void set_pos(int n, int j){this->n = n; this->j = j;};
         ~Node(){};
 };
 
