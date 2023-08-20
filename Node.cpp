@@ -1,6 +1,7 @@
 #include "Node.hpp"
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 Node::Node(int n, int j): n(n), j(j), share_price(0), deriv_price(0){}
 
@@ -14,7 +15,7 @@ std::vector<int> Node::get_pos(){
     return(pos);
 }
 
-void Node::calc_share_price(Node& prev, int factor){
+void Node::calc_share_price(Node& prev, float factor){
     this->share_price = prev.share_price * factor;
 }
 
@@ -23,5 +24,5 @@ void Node::calc_deriv_price(float R, float pi, Node& next_up, Node& next_down){
 }
 
 void Node::calc_expiry_deriv_price(float K){
-    this->deriv_price =K-this->share_price > 0 ? K-this->share_price : 0;
+    this->deriv_price = this->share_price-K > 0 ? this->share_price-K : 0;
 }

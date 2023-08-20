@@ -30,21 +30,39 @@ void Tree::init_nodes(){
         vector<Node> col(n+1);
         for(int j = 0; j < col.size(); j++){
             col[j].set_pos(n,j);
-            if(j == 0) col[j].calc_share_price(this->tree[n-1][0], this->d);
-            else col[j].calc_share_price(this->tree[n-1][j-1], this->u);
+            if(j == 0 && n > 0) col[j].calc_share_price(this->tree[n-1][0], this->d);
+            else col[j].calc_share_price(this->tree[n-1][j-1], this->u);   
         }
         this->tree.push_back(col);
+    }
+
+    //out put share prices
+    for(int n = 0; n <= this->N; n++){
+        for(int j = 0; j < this->tree[n].size(); j++){
+            std::cout << this->tree[n][j].get_share_price() << " \t";
+        }
+        std::cout << std::endl;
     }
 }
 
 float Tree::find_premium(){
-    for(int n = this->tree.size(); n >= 0; n--){
+    for(int n = this->N; n >= 0; n--){
         for(int j = 0; j < this->tree[n].size(); j++){
-            if(n == this->tree.size())
+            if(n == this->N){
                 this->tree[n][j].calc_expiry_deriv_price(this->K);
+            }
             else
                 this->tree[n][j].calc_deriv_price(R, pi, this->tree[n+1][j+1], this->tree[n+1][j]);
         }
+    }
+
+    //testing deriv price
+    std::cout << "\n";
+    for(int n = 0; n <= this->N; n++){
+        for(auto node : this->tree[n]){
+            std::cout << node.get_deriv_price() << " \t";
+        }
+        std::cout << std::endl;
     }
     return(this->tree[0][0].get_deriv_price());
 }

@@ -23,7 +23,7 @@ class Node
         float get_deriv_price(){ return(this->deriv_price);}
         float get_share_price(){ return(this->share_price);}
         vector<int> get_pos();
-        void calc_share_price(Node& prev, int factor);
+        void calc_share_price(Node& prev, float factor);
         void calc_deriv_price(float R, float pi, Node& next_up, Node& next_down);
         void calc_expiry_deriv_price(float K);
         void set_S(float S){this->share_price = S;};
