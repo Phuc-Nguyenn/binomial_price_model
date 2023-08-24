@@ -21,18 +21,25 @@
 
 
 int main(){
-    float   S = 4;
-    float   K = 5;
-    int     N = 8;
-    float   u = 1.3;
-    float   d = 0.769231;
+    float   S = 2.0f;
+    float   K = 19.0f;
+    int     N = 2;
+    float   u = 2/3;
+    float   d = 0.96;
     float   R = 1.1;
     Tree Tree(S, K, R, N, u, d);
     
-    std::cout << "\nthe premium of the call option C(0,0) is: " << Tree.get_call_premium() << std::endl;
-    std::cout << "the premium of the put option P(0,0) is: " << Tree.get_put_premium() << "\n\n";
-
-    Tree.print_node_info(0,0);
+    std::cout << "\nthe premium of the European call option C(0,0) is: " << Tree.get_call_premium() << std::endl;
+    std::cout << "the premium of the European put option P(0,0) is: " << Tree.get_put_premium() << "\n";
+    std::cout << "the premium of the American put option P(0,0) is: " << Tree.get_a_put_premium() << "\n\n";
+    while(1){
+        std::cout << "info for what node..? n [enter] j" << std::endl;
+        int n;
+        int j;
+        std::cin >> n >> j;
+        Tree.print_node_info(n,j);
+        std::cout<< std::endl;
+    }
 
     return(0);
 }

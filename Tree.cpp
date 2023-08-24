@@ -56,7 +56,7 @@ void Tree::calc_deriv_prices(){
                 this->tree[n][j].calc_expiry_deriv_price(this->K);
             }
             else
-                this->tree[n][j].calc_deriv_price(R, pi, this->tree[n+1][j+1], this->tree[n+1][j]);
+                this->tree[n][j].calc_deriv_price(K, R, pi, this->tree[n+1][j+1], this->tree[n+1][j]);
         }
     }
     //testing deriv price
@@ -86,6 +86,7 @@ vector<float> Tree::get_node_info(int n, int j){
         info.push_back(this->tree[n][j].get_share_price());
         info.push_back(this->tree[n][j].get_call_price());
         info.push_back(this->tree[n][j].get_put_price());
+        info.push_back(this->tree[n][j].get_a_put_price());
     }
     else
         std::cout << "(n,j) bad parameters." << std::endl;
@@ -99,4 +100,5 @@ void Tree::print_node_info(int n, int j){
     std::cout << "S(n,j) :\t" << node_info[2] << std::endl;
     std::cout << "C(n,j) :\t" << node_info[3] << std::endl;
     std::cout << "P(n,j) :\t" << node_info[4] << std::endl;
+    std::cout << "a_P(n,j) :\t" << node_info[5] << std::endl;
 }
