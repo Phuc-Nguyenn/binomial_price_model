@@ -10,7 +10,7 @@
 class Tree
 {
     private:
-        vector<vector<Node>> tree;
+        std::vector<std::vector<Node>> tree;
         float pi;
         float u;
         float d;
@@ -32,7 +32,7 @@ class Tree
         float get_a_put_premium() {return(this->tree[0][0].get_a_put_price());};
 
         Node &get_node(int n, int j);
-        vector<float> get_node_info(int n, int j);
+        std::vector<float> get_node_info(int n, int j);
         void print_node_info(int n, int j);
 };
 
